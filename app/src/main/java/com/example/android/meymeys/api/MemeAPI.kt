@@ -11,5 +11,5 @@ interface MemeAPI {
     suspend fun getMeme(
         @Path("subreddit") subreddit:String,
         @Path("count") count:Int
-    ): Response<String>
+    ): Response<MemeResponse>
 }
