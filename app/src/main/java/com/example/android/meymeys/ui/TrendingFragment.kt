@@ -6,8 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.example.android.meymeys.adapter.MemeClickListener
 import com.example.android.meymeys.adapter.MemeListAdapter
 import com.example.android.meymeys.databinding.FragmentTrendingBinding
+import com.example.android.meymeys.model.Meme
 import com.example.android.meymeys.utils.SUBREDDIT_TRENDING
 import com.example.android.meymeys.viewmodel.NetworkViewModel
 import com.example.android.meymeys.viewmodelfactory.NetworkViewModelFactory
@@ -29,7 +32,12 @@ class TrendingFragment : Fragment() {
         val viewModel= ViewModelProvider(this,viewModelFactory).get(NetworkViewModel::class.java)
 
         //setting up Recycler View
-        val adapter= MemeListAdapter()
+        val adapter=MemeListAdapter(object: MemeClickListener {
+            override fun onclick(meme: Meme) {
+                findNavController().navigate(TrendingFragmentDirections.actionTrendingFragmentToDetailFragment(meme))
+            }
+
+        })
         binding.apply {
             this.trendingMemeList.adapter=adapter
             this.viewModel=viewModel

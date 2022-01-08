@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                     binding.drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
                 }
                 else -> {
-                    binding.bottomNavigationView.visibility = View.INVISIBLE
+                    binding.bottomNavigationView.visibility = View.GONE
                     binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
                 }
             }

@@ -5,17 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.meymeys.databinding.ActivityMainBinding
 import com.example.android.meymeys.databinding.ListItemBinding
 import com.example.android.meymeys.model.Meme
 
-class MemeListAdapter : RecyclerView.Adapter<MemeListAdapter.ViewHolder>() {
+class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Adapter<MemeListAdapter.ViewHolder>() {
 
     /** Async List Differ object which calculates difference between two lists faster
      * @param adapter Recycler View Adapter
      * @param callback DiffUtil callback object
      */
-    val differ=AsyncListDiffer<Meme>(this,object : DiffUtil.ItemCallback<Meme>(){
+    val differ=AsyncListDiffer(this,object : DiffUtil.ItemCallback<Meme>(){
         override fun areItemsTheSame(oldItem: Meme, newItem: Meme): Boolean {
             return oldItem.postLink==newItem.postLink
         }
@@ -28,9 +27,10 @@ class MemeListAdapter : RecyclerView.Adapter<MemeListAdapter.ViewHolder>() {
 
     class ViewHolder(private val binding: ListItemBinding):RecyclerView.ViewHolder(binding.root){
 
-        fun bind(meme:Meme){
+        fun bind(meme:Meme,listener: MemeClickListener){
             binding.apply {
                 this.meme=meme
+                this.listener=listener
                 executePendingBindings()
             }
         }
@@ -48,10 +48,13 @@ class MemeListAdapter : RecyclerView.Adapter<MemeListAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val meme=differ.currentList[position]
-        holder.bind(meme)
+        holder.bind(meme,listener)
     }
 
     override fun getItemCount()=differ.currentList.size
 
 
+}
+interface MemeClickListener{
+    fun onclick(meme: Meme)
 }

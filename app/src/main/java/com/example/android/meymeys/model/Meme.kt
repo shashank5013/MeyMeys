@@ -1,5 +1,9 @@
 package com.example.android.meymeys.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
 data class Meme(
     val author: String,
     val nsfw: Boolean,
@@ -10,4 +14,4 @@ data class Meme(
     val title: String,
     val ups: Int,
     val url: String
-)
+):Parcelable

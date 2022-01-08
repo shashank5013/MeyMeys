@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_delete.xml" value="0.2490740740740741" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_favourite.xml" value="0.2490740740740741" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_home.xml" value="0.24814814814814815" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_likes.xml" value="0.2490740740740741" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_meme_placeholder.xml" value="0.2490740740740741" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_about.xml" value="0.2864583333333333" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_detail.xml" value="0.27025641025641023" />
