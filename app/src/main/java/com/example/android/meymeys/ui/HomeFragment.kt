@@ -44,6 +44,8 @@ class HomeFragment : Fragment() {
             this.lifecycleOwner=this@HomeFragment
         }
 
+
+
         //Observing data coming from the internet
         viewModel.memeResponse.observe(viewLifecycleOwner,{
             adapter.differ.submitList(it.memes)

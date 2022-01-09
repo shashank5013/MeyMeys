@@ -40,18 +40,16 @@
            <ImageView
                android:id="@+id/memeImage"
                android:layout_width="match_parent"
-               android:layout_height="300dp"
+               android:layout_height="wrap_content"
                android:layout_marginStart="8dp"
                android:layout_marginEnd="8dp"
-               app:imageURL="@{meme.url}"
                android:adjustViewBounds="true"
                android:onClick="@{()->listener.onclick(meme)}"
+               app:imageURL="@{meme.url}"
                app:layout_constraintBottom_toTopOf="@+id/guideline2"
                app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintHorizontal_bias="1.0"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toTopOf="@+id/guideline1"
-               app:layout_constraintVertical_bias="0.0"
                app:srcCompat="@drawable/ic_meme_placeholder" />
 
            <TextView
@@ -59,58 +57,72 @@
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:layout_marginStart="8dp"
-               android:textStyle="bold"
-               tools:text="shashank"
-               android:text="@{meme.author}"
+               android:layout_marginTop="8dp"
+               android:layout_marginBottom="16dp"
                android:ellipsize="end"
+               android:maxEms="5"
                android:maxLines="1"
-               android:ems="10"
+               android:text="@{meme.author}"
                android:textColor="@color/black"
-               app:layout_constraintBottom_toTopOf="@+id/guideline1"
+               android:textStyle="bold"
+               app:layout_constraintBottom_toTopOf="@+id/memeImage"
                app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toTopOf="parent" />
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintVertical_bias="0.0"
+               tools:text="shashank" />
 
            <ImageView
                android:id="@+id/like_image"
                android:layout_width="24dp"
                android:layout_height="24dp"
+               android:layout_marginTop="8dp"
                android:layout_marginEnd="8dp"
-               app:layout_constraintBottom_toTopOf="@+id/guideline1"
+               android:layout_marginBottom="16dp"
+               app:layout_constraintBottom_toTopOf="@+id/memeImage"
                app:layout_constraintEnd_toStartOf="@+id/likes_text"
                app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintVertical_bias="0.0"
                app:srcCompat="@drawable/ic_likes" />
 
            <TextView
                android:id="@+id/likes_text"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
+               android:layout_marginTop="8dp"
                android:layout_marginEnd="8dp"
+               android:layout_marginBottom="16dp"
                android:textColor="@color/black"
-               tools:text="56"
-               app:likes="@{meme.ups}"
-               app:layout_constraintBottom_toTopOf="@+id/guideline1"
+               app:layout_constraintBottom_toTopOf="@+id/memeImage"
                app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintTop_toTopOf="parent" />
+               app:layout_constraintTop_toTopOf="parent"
+               app:layout_constraintVertical_bias="0.0"
+               app:likes="@{meme.ups}"
+               tools:text="56" />
 
            <ImageView
                android:id="@+id/favourite_image"
                android:layout_width="24dp"
                android:layout_height="24dp"
+               android:layout_marginTop="16dp"
                android:layout_marginEnd="8dp"
-
+               android:layout_marginBottom="8dp"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintTop_toTopOf="@+id/guideline2"
-               app:srcCompat="@drawable/ic_favourite" />
+               app:layout_constraintTop_toBottomOf="@+id/memeImage"
+               app:layout_constraintVertical_bias="1.0"
+               app:srcCompat="@drawable/ic_unfavourite" />
 
            <ImageView
                android:id="@+id/share_image"
                android:layout_width="24dp"
                android:layout_height="24dp"
+               android:layout_marginTop="16dp"
                android:layout_marginEnd="32dp"
+               android:layout_marginBottom="8dp"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintEnd_toStartOf="@+id/favourite_image"
-               app:layout_constraintTop_toTopOf="@+id/guideline2"
+               app:layout_constraintTop_toBottomOf="@+id/memeImage"
+               app:layout_constraintVertical_bias="1.0"
                app:srcCompat="@drawable/ic_baseline_ios_share_24" />
        </androidx.constraintlayout.widget.ConstraintLayout>
    </androidx.cardview.widget.CardView>

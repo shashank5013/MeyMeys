@@ -1,5 +1,7 @@
 package com.example.android.meymeys.ui
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -66,13 +68,28 @@ class MainActivity : AppCompatActivity() {
     private fun setupBottomNavView() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             when (destination.id) {
-                R.id.homeFragment, R.id.trendingFragment -> {
-                    binding.bottomNavigationView.visibility = View.VISIBLE
+                R.id.homeFragment, R.id.trendingFragment  -> {
+                    binding.bottomNavigationView.visibility = View.GONE
                     binding.drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
+
                 }
                 else -> {
                     binding.bottomNavigationView.visibility = View.GONE
                     binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
+                }
+            }
+
+            //Sets color of action bar on different fragments
+            when (destination.id){
+                 R.id.detailFragment -> {
+                     val color=ColorDrawable(Color.BLACK)
+                     supportActionBar?.setBackgroundDrawable(color)
+                     window.statusBarColor=Color.BLACK
+                 }
+                else -> {
+                    val color=ColorDrawable(resources.getColor(R.color.purple_500))
+                    supportActionBar?.setBackgroundDrawable(color)
+                    window.statusBarColor=resources.getColor(R.color.purple_700)
                 }
             }
         }
