@@ -56,5 +56,5 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
 
 }
 interface MemeClickListener{
-    fun onclick(meme: Meme)
+    fun onclickImage(meme: Meme)
 }

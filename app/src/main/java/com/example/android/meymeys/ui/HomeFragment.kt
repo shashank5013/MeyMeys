@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
         //setting up Recycler View
         val adapter=MemeListAdapter(object:MemeClickListener{
-            override fun onclick(meme: Meme) {
+            override fun onclickImage(meme: Meme) {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(meme))
             }
 
