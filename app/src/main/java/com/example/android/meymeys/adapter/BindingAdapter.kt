@@ -16,3 +16,4 @@ fun ImageView.setImageFromURL(url:String){
 fun TextView.setLikes(likes:Int){
     this.text=likes.toString()
 }
+
