@@ -5,12 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.android.meymeys.adapter.MemeClickListener
 import com.example.android.meymeys.adapter.MemeListAdapter
 import com.example.android.meymeys.databinding.FragmentHomeBinding
 import com.example.android.meymeys.model.Meme
+import com.example.android.meymeys.utils.Resource
 import com.example.android.meymeys.utils.SUBREDDIT_HOME
 import com.example.android.meymeys.viewmodel.NetworkViewModel
 import com.example.android.meymeys.viewmodelfactory.NetworkViewModelFactory
@@ -48,7 +50,29 @@ class HomeFragment : Fragment() {
 
         //Observing data coming from the internet
         viewModel.memeResponse.observe(viewLifecycleOwner,{
-            adapter.differ.submitList(it.memes)
+            when(it){
+                is Resource.Loading ->{
+                    binding.apply {
+                        homeMemeList.visibility=View.GONE
+                        progressBar.visibility=View.VISIBLE
+                    }
+                }
+                is Resource.Success ->{
+                    adapter.differ.submitList(it.data?.memes)
+                    binding.apply {
+                        homeMemeList.visibility=View.VISIBLE
+                        progressBar.visibility=View.GONE
+                    }
+
+                }
+                else -> {
+                    binding.apply {
+                        homeMemeList.visibility=View.VISIBLE
+                        progressBar.visibility=View.GONE
+                    }
+                    Toast.makeText(context,"Error Occured",Toast.LENGTH_SHORT).show()
+                }
+            }
         })
         return binding.root
     }

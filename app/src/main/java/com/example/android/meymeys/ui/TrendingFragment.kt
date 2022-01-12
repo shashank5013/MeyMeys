@@ -46,7 +46,7 @@ class TrendingFragment : Fragment() {
 
         //Observing data coming from the internet
         viewModel.memeResponse.observe(viewLifecycleOwner,{
-            adapter.differ.submitList(it.memes)
+            adapter.differ.submitList(it.data?.memes)
         })
         return binding.root
     }
