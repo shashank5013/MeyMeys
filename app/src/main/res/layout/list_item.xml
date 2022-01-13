@@ -7,9 +7,7 @@
         <variable
             name="meme"
             type="com.example.android.meymeys.model.Meme" />
-        <variable
-            name="listener"
-            type="com.example.android.meymeys.adapter.MemeClickListener" />
+
     </data>
 
    <androidx.cardview.widget.CardView
@@ -44,8 +42,8 @@
                android:layout_marginStart="8dp"
                android:layout_marginEnd="8dp"
                android:adjustViewBounds="true"
-               android:onClick="@{()->listener.onclickImage(meme)}"
                app:imageURL="@{meme.url}"
+               android:transitionName="@{meme.url}"
                app:layout_constraintBottom_toTopOf="@+id/guideline2"
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintStart_toStartOf="parent"

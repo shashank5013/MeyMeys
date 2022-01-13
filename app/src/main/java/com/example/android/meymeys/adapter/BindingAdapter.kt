@@ -13,8 +13,6 @@ fun ImageView.setImageFromURL(url:String){
     val imageURL=url.toUri().buildUpon().scheme("https").build()
     Glide.with(context).
     load(imageURL).
-    thumbnail(0.5f).
-    transition(DrawableTransitionOptions.withCrossFade()).
     into(this)
 }
 

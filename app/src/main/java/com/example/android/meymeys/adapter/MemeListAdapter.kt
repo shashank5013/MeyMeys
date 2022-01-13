@@ -2,6 +2,7 @@ package com.example.android.meymeys.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -30,8 +31,10 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
         fun bind(meme:Meme,listener: MemeClickListener){
             binding.apply {
                 this.meme=meme
-                this.listener=listener
                 executePendingBindings()
+                this.memeImage.setOnClickListener {
+                    listener.onclickImage(meme,this.memeImage)
+                }
             }
         }
 
@@ -56,5 +59,5 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
 
 }
 interface MemeClickListener{
-    fun onclickImage(meme: Meme)
+    fun onclickImage(meme: Meme,imageView:ImageView)
 }

@@ -5,9 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.FragmentNavigator
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.example.android.meymeys.adapter.MemeClickListener
 import com.example.android.meymeys.adapter.MemeListAdapter
 import com.example.android.meymeys.databinding.FragmentHomeBinding
@@ -28,6 +33,8 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val binding=FragmentHomeBinding.inflate(layoutInflater, container, false)
 
+        postponeEnterTransition()
+
         //Initialising viewmodel
         val application= requireNotNull(this.activity).application
         val viewModelFactory=NetworkViewModelFactory(SUBREDDIT_HOME, application)
@@ -35,8 +42,11 @@ class HomeFragment : Fragment() {
 
         //setting up Recycler View
         val adapter=MemeListAdapter(object:MemeClickListener{
-            override fun onclickImage(meme: Meme) {
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(meme))
+            override fun onclickImage(meme: Meme,imageView: ImageView) {
+                val extras= FragmentNavigator.Extras.Builder()
+                    .addSharedElement(imageView ,meme.url)
+                    .build()
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(meme),extras)
             }
 
         })
@@ -62,6 +72,11 @@ class HomeFragment : Fragment() {
                     binding.apply {
                         homeMemeList.visibility=View.VISIBLE
                         progressBar.visibility=View.GONE
+                    }
+                    // Start the transition once all views have been
+                    // measured and laid out
+                    (binding.root.parent as? ViewGroup)?.doOnPreDraw{
+                        startPostponedEnterTransition()
                     }
 
                 }
