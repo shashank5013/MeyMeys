@@ -17,7 +17,7 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
      */
     val differ=AsyncListDiffer(this,object : DiffUtil.ItemCallback<Meme>(){
         override fun areItemsTheSame(oldItem: Meme, newItem: Meme): Boolean {
-            return oldItem.postLink==newItem.postLink
+            return oldItem.url==newItem.url
         }
 
         override fun areContentsTheSame(oldItem: Meme, newItem: Meme): Boolean {
@@ -31,10 +31,11 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
         fun bind(meme:Meme,listener: MemeClickListener){
             binding.apply {
                 this.meme=meme
-                executePendingBindings()
+
                 this.memeImage.setOnClickListener {
                     listener.onclickImage(meme,this.memeImage)
                 }
+                executePendingBindings()
             }
         }
 
@@ -55,6 +56,7 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
     }
 
     override fun getItemCount()=differ.currentList.size
+
 
 
 }

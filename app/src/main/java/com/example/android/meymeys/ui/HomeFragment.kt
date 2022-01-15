@@ -13,6 +13,7 @@ import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.android.meymeys.adapter.MemeClickListener
 import com.example.android.meymeys.adapter.MemeListAdapter
 import com.example.android.meymeys.databinding.FragmentHomeBinding
@@ -89,7 +90,15 @@ class HomeFragment : Fragment() {
                 }
             }
         })
+
+
+        //Handling gaping strategy so that list doesn't swap columns
+        val layoutManager=StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
+        layoutManager.gapStrategy=StaggeredGridLayoutManager.GAP_HANDLING_NONE
+        layoutManager.invalidateSpanAssignments()
+        binding.homeMemeList.layoutManager=layoutManager
         return binding.root
     }
 
 }
+
