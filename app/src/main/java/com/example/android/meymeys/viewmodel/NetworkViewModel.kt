@@ -22,15 +22,13 @@ class NetworkViewModel(private val subreddit:String,application: Application) : 
     //Repository variable
     private val repository=NetworkRepository()
 
-
-    init {
-        getMemesFromInternet()
-    }
+    //Spinner selected item
+    var spinnerPosition=-1
 
     /** Gets list of memes from the internet **/
-    private fun getMemesFromInternet()=viewModelScope.launch {
+    fun getMemesFromInternet(subreddit: String)=viewModelScope.launch {
         _memeResponse.value=Resource.Loading()
-        val response=repository.getMemesFromInternet("wholesomememes", COUNT)
+        val response=repository.getMemesFromInternet(subreddit, COUNT)
         handleResponse(response)
     }
 

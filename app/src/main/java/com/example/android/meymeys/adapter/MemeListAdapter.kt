@@ -31,11 +31,12 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
         fun bind(meme:Meme,listener: MemeClickListener){
             binding.apply {
                 this.meme=meme
-
+                executePendingBindings()
                 this.memeImage.setOnClickListener {
                     listener.onclickImage(meme,this.memeImage)
                 }
-                executePendingBindings()
+
+
             }
         }
 

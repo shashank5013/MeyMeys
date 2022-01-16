@@ -13,7 +13,8 @@ import com.example.android.meymeys.R
 fun ImageView.setImageFromURL(url:String){
     val imageURL=url.toUri().buildUpon().scheme("https").build()
     Glide.with(context).
-    load(imageURL).thumbnail(0.5f).transition(DrawableTransitionOptions.withCrossFade()).
+    load(imageURL).placeholder(R.drawable.ic_meme_placeholder).
+    thumbnail(0.5f).transition(DrawableTransitionOptions.withCrossFade()).
     into(this)
 }
 
