@@ -2,15 +2,17 @@ package com.example.android.meymeys.ui
 
 import android.R
 import android.app.Application
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.doOnLayout
+import androidx.core.view.doOnNextLayout
 import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -56,15 +58,20 @@ class HomeFragment : Fragment() , AdapterView.OnItemSelectedListener {
 
 
         postponeEnterTransition()
+
+
         //Observing data coming from the internet
         viewModel.memeResponse.observe(viewLifecycleOwner,{
             when(it){
                 is Resource.Loading ->{
                     showProgressBar()
                     hideRecyclerView()
+                    adapter.differ.submitList(listOf())
+
                 }
                 is Resource.Success ->{
-                    adapter.differ.submitList(it.data?.memes)
+                    adapter.differ.submitList(it.data?.memes?.toList())
+
 
                     hideProgressBar()
                     showRecyclerView()
@@ -87,7 +94,6 @@ class HomeFragment : Fragment() , AdapterView.OnItemSelectedListener {
             }
         })
 
-
         //Handling gaping strategy so that list doesn't swap columns
         val layoutManager=StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL)
         layoutManager.gapStrategy=StaggeredGridLayoutManager.GAP_HANDLING_NONE
@@ -96,7 +102,6 @@ class HomeFragment : Fragment() , AdapterView.OnItemSelectedListener {
 
 
         setUpSpinner(application)
-
 
 
         return binding.root
@@ -119,7 +124,7 @@ class HomeFragment : Fragment() , AdapterView.OnItemSelectedListener {
 
     /** Hides Recycler View */
     private fun hideRecyclerView(){
-        binding.homeMemeList.visibility=View.GONE
+        binding.homeMemeList.visibility=View.INVISIBLE
     }
 
     /** Setting up spinner for categories */
@@ -171,7 +176,6 @@ class HomeFragment : Fragment() , AdapterView.OnItemSelectedListener {
             }
         }
     }
-
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
     }
