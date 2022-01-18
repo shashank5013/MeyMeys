@@ -1,5 +1,7 @@
 package com.example.android.meymeys.ui
 
+import android.R
+import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -42,46 +44,31 @@ class HomeFragment : Fragment() , AdapterView.OnItemSelectedListener {
         // Inflate the layout for this fragment
         binding=FragmentHomeBinding.inflate(layoutInflater, container, false)
 
-        postponeEnterTransition()
 
         //Initialising viewmodel
         val application= requireNotNull(this.activity).application
         val viewModelFactory=NetworkViewModelFactory(SUBREDDIT_HOME, application)
         viewModel=ViewModelProvider(this,viewModelFactory).get(NetworkViewModel::class.java)
 
-        //setting up Recycler View
-        val adapter=MemeListAdapter(object:MemeClickListener{
-            override fun onclickImage(meme: Meme,imageView: ImageView) {
-                val extras= FragmentNavigator.Extras.Builder()
-                    .addSharedElement(imageView ,meme.url)
-                    .build()
-                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(meme),extras)
-            }
-
-        })
-        binding.apply {
-            this.homeMemeList.adapter=adapter
-            this.viewModel=viewModel
-            this.lifecycleOwner=this@HomeFragment
-        }
 
 
+        val adapter = setUpRecyclerView()
 
+
+        postponeEnterTransition()
         //Observing data coming from the internet
         viewModel.memeResponse.observe(viewLifecycleOwner,{
             when(it){
                 is Resource.Loading ->{
-                    binding.apply {
-                        homeMemeList.visibility=View.GONE
-                        progressBar.visibility=View.VISIBLE
-                    }
+                    showProgressBar()
+                    hideRecyclerView()
                 }
                 is Resource.Success ->{
                     adapter.differ.submitList(it.data?.memes)
-                    binding.apply {
-                        homeMemeList.visibility=View.VISIBLE
-                        progressBar.visibility=View.GONE
-                    }
+
+                    hideProgressBar()
+                    showRecyclerView()
+
                     // Start the transition once all views have been
                     // measured and laid out
                     (binding.root.parent as? ViewGroup)?.doOnPreDraw{
@@ -90,10 +77,11 @@ class HomeFragment : Fragment() , AdapterView.OnItemSelectedListener {
 
                 }
                 else -> {
-                    binding.apply {
-                        homeMemeList.visibility=View.VISIBLE
-                        progressBar.visibility=View.GONE
-                    }
+
+                    showRecyclerView()
+                    hideProgressBar()
+
+
                     Toast.makeText(context,"Error Occured",Toast.LENGTH_SHORT).show()
                 }
             }
@@ -107,26 +95,73 @@ class HomeFragment : Fragment() , AdapterView.OnItemSelectedListener {
         binding.homeMemeList.layoutManager=layoutManager
 
 
-        //Setting up Categories Spinner
-        val spinnerArray= Subreddits.keys.toTypedArray()
-        val spinnerAdapter=ArrayAdapter(application,android.R.layout.simple_spinner_item,spinnerArray).also {
-            it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        }
-        binding.categoriesSpinner.apply {
-            setSelection(0)
-            this.adapter=spinnerAdapter
-            onItemSelectedListener=this@HomeFragment
-        }
+        setUpSpinner(application)
 
 
 
         return binding.root
     }
 
+    /** Shows Progress Bar */
+    private fun showProgressBar(){
+        binding.progressBar.visibility=View.VISIBLE
+    }
+
+    /** Hides Progress Bar */
+    private fun hideProgressBar(){
+        binding.progressBar.visibility=View.GONE
+    }
+
+    /** Shows Recycler View */
+    private fun showRecyclerView(){
+        binding.homeMemeList.visibility=View.VISIBLE
+    }
+
+    /** Hides Recycler View */
+    private fun hideRecyclerView(){
+        binding.homeMemeList.visibility=View.GONE
+    }
+
+    /** Setting up spinner for categories */
+    private fun setUpSpinner(application: Application) {
+        val spinnerArray = Subreddits.keys.toTypedArray()
+        val spinnerAdapter =
+            ArrayAdapter(application, R.layout.simple_spinner_item, spinnerArray).also {
+                it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            }
+        binding.categoriesSpinner.apply {
+            setSelection(0)
+            this.adapter = spinnerAdapter
+            onItemSelectedListener = this@HomeFragment
+        }
+    }
+
+    /** Setting up Recycler View */
+    private fun setUpRecyclerView(): MemeListAdapter {
+        //setting up Recycler View
+        val adapter = MemeListAdapter(object : MemeClickListener {
+            override fun onclickImage(meme: Meme, imageView: ImageView) {
+                val extras = FragmentNavigator.Extras.Builder()
+                    .addSharedElement(imageView, meme.url)
+                    .build()
+                findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(
+                        meme
+                    ), extras
+                )
+            }
+
+        })
+        binding.apply {
+            this.homeMemeList.adapter = adapter
+            this.viewModel = viewModel
+            this.lifecycleOwner = this@HomeFragment
+        }
+        return adapter
+    }
 
 
     /** Implementing onclick listeners for spinner list items */
-
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         parent?.let {
             if(position!=viewModel.spinnerPosition){

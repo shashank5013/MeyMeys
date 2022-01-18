@@ -15,7 +15,7 @@ import retrofit2.Response
 class NetworkViewModel(private val subreddit:String,application: Application) : AndroidViewModel(application){
 
     //List of memes
-    private val _memeResponse=MutableLiveData< Resource<MemeResponse>>()
+    private val _memeResponse=MutableLiveData<Resource<MemeResponse>>()
     val memeResponse:LiveData<Resource<MemeResponse>>
     get() = _memeResponse
 
