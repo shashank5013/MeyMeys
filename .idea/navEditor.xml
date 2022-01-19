@@ -25,8 +25,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="236" />
-                            <option name="y" value="150" />
+                            <option name="x" value="301" />
+                            <option name="y" value="157" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -43,7 +43,7 @@
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_indiaFragment_to_detailFragment">
+                            <entry key="action_homeFragment_to_detailFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
