@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -29,10 +30,6 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        //Setting entering transition
-        sharedElementEnterTransition=TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-
-
         val binding=FragmentDetailBinding.inflate(layoutInflater,container,false)
 
         val args : DetailFragmentArgs by navArgs()
@@ -40,33 +37,13 @@ class DetailFragment : Fragment() {
         binding.executePendingBindings()
 
         //setting image view using glide and altering transitions
-        postponeEnterTransition()
-        Glide.with(this)
+        Glide.with(binding.detailImage.context)
             .load(args.meme.url)
-            .listener(object : RequestListener<Drawable> {
-                override fun onLoadFailed(
-                    e: GlideException?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    startPostponedEnterTransition()
-                    return false
-                }
-
-                override fun onResourceReady(
-                    resource: Drawable?,
-                    model: Any?,
-                    target: Target<Drawable>?,
-                    dataSource: DataSource?,
-                    isFirstResource: Boolean
-                ): Boolean {
-                    startPostponedEnterTransition()
-                    return false
-                }
-
-            })
+            .placeholder(AppCompatResources.getDrawable(binding.detailImage.context,R.drawable.ic_meme_placeholder))
             .into(binding.detailImage)
+
+
+
         return binding.root
     }
 

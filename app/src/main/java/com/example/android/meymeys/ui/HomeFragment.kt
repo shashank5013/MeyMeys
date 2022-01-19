@@ -58,7 +58,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         adapter = setUpRecyclerView()
 
 
-        postponeEnterTransition()
 
 
         //Observing data coming from the internet
@@ -79,11 +78,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     hideProgressBar()
                     showRecyclerView()
 
-                    // Start the transition once all views have been
-                    // measured and laid out
-                    (binding.root.parent as? ViewGroup)?.doOnPreDraw {
-                        startPostponedEnterTransition()
-                    }
 
                 }
                 else -> {
@@ -190,16 +184,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun setUpRecyclerView(): MemeListAdapter {
         val adapter = MemeListAdapter(object : MemeClickListener {
             override fun onclickImage(meme: Meme, imageView: ImageView) {
-                val extras = FragmentNavigator.Extras.Builder()
-                    .addSharedElement(imageView, meme.url)
-                    .build()
-                findNavController().navigate(
-                    HomeFragmentDirections.actionHomeFragmentToDetailFragment(
-                        meme
-                    ), extras
-                )
+               findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(meme))
             }
-
         })
         val listener = setUpScrollListener()
         binding.apply {
