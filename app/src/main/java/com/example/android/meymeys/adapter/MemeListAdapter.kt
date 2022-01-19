@@ -1,11 +1,20 @@
 package com.example.android.meymeys.adapter
 
+import android.app.Application
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+import com.example.android.meymeys.R
 import com.example.android.meymeys.databinding.ListItemBinding
 import com.example.android.meymeys.model.Meme
 
@@ -32,12 +41,49 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
             binding.apply {
                 this.meme=meme
                 executePendingBindings()
-                this.memeImage.setOnClickListener {
-                    listener.onclickImage(meme,this.memeImage)
-                }
-
+                setImage(meme, listener)
 
             }
+        }
+
+        private fun setImage(
+            meme: Meme,
+            listener: MemeClickListener
+        ) {
+            Glide.with(binding.memeImage.context)
+                .load(meme.url)
+                .placeholder(
+                    AppCompatResources.getDrawable(
+                        binding.memeImage.context,
+                        R.drawable.ic_meme_placeholder
+                    )
+                )
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.memeImage.setOnClickListener { }
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.memeImage.setOnClickListener {
+                            listener.onclickImage(meme, it as ImageView)
+                        }
+                        return false
+                    }
+
+                })
+                .into(binding.memeImage)
         }
 
         companion object{

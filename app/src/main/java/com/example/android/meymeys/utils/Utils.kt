@@ -13,3 +13,4 @@ val Subreddits= mapOf<String,String>(
     "History" to "HistoryMemes",
     "Hindi" to "HindiMemes"
 )
+const val QUERY_PAGE_SIZE=20
