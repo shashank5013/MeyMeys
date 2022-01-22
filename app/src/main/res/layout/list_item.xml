@@ -14,7 +14,9 @@
        android:layout_width="match_parent"
        android:layout_margin="4dp"
        android:layout_height="wrap_content"
-       app:cardElevation="25dp"
+       app:cardElevation="32dp"
+       android:foreground="?android:attr/selectableItemBackground"
+       android:clickable="true"
        app:cardCornerRadius="5dp">
 
        <androidx.constraintlayout.widget.ConstraintLayout
@@ -39,16 +41,19 @@
                android:id="@+id/memeImage"
                android:layout_width="match_parent"
                android:layout_height="wrap_content"
-               android:minHeight="200dp"
-               android:maxHeight="220dp"
-               android:layout_marginStart="8dp"
-               android:layout_marginEnd="8dp"
+               android:layout_marginStart="4dp"
+               android:layout_marginEnd="4dp"
                android:adjustViewBounds="true"
+               android:maxHeight="250dp"
+               android:minHeight="200dp"
+               android:clickable="true"
                app:layout_constraintBottom_toTopOf="@+id/guideline2"
                app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintHorizontal_bias="0.0"
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toTopOf="@+id/guideline1"
-               app:srcCompat="@drawable/ic_meme_placeholder" />
+               app:srcCompat="@drawable/ic_meme_placeholder"
+               android:background="@color/bg_grey"/>
 
            <TextView
                android:id="@+id/author_text"
@@ -101,9 +106,11 @@
                android:id="@+id/share_image"
                android:layout_width="24dp"
                android:layout_height="24dp"
-               android:layout_marginTop="16dp"
-               android:layout_marginEnd="32dp"
+               android:layout_marginTop="12dp"
+               android:layout_marginEnd="24dp"
                android:layout_marginBottom="8dp"
+               android:stateListAnimator="@animator/scale"
+               android:clickable="true"
                app:layout_constraintBottom_toBottomOf="parent"
                app:layout_constraintEnd_toStartOf="@+id/checkBox"
                app:layout_constraintTop_toBottomOf="@+id/memeImage"
@@ -114,7 +121,7 @@
                android:id="@+id/checkBox"
                android:layout_width="24dp"
                android:layout_height="24dp"
-               android:layout_marginTop="16dp"
+               android:layout_marginTop="12dp"
                android:layout_marginEnd="8dp"
                android:layout_marginBottom="8dp"
                android:background="@drawable/selector_favourite"

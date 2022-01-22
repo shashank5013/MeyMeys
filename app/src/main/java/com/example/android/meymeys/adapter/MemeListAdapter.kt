@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.android.meymeys.R
@@ -58,6 +59,8 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
                         R.drawable.ic_meme_placeholder
                     )
                 )
+                .thumbnail(0.05f)
+                .transition(DrawableTransitionOptions.withCrossFade())
                 .listener(object : RequestListener<Drawable> {
                     override fun onLoadFailed(
                         e: GlideException?,

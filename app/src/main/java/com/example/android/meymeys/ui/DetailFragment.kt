@@ -17,6 +17,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.android.meymeys.R
@@ -39,6 +40,8 @@ class DetailFragment : Fragment() {
         //setting image view using glide and altering transitions
         Glide.with(binding.detailImage.context)
             .load(args.meme.url)
+            .thumbnail(0.05f)
+            .transition(DrawableTransitionOptions.withCrossFade())
             .placeholder(AppCompatResources.getDrawable(binding.detailImage.context,R.drawable.ic_meme_placeholder))
             .into(binding.detailImage)
 

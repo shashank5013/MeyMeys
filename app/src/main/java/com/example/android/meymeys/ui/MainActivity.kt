@@ -35,9 +35,6 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-        }
 
         //Setting up NavController
         val navHostFragment =
@@ -94,7 +91,7 @@ class MainActivity : AppCompatActivity() {
                 else -> {
                     val color=ColorDrawable(resources.getColor(R.color.purple_500))
                     supportActionBar?.setBackgroundDrawable(color)
-                    window.statusBarColor=resources.getColor(R.color.purple_700)
+                    window.statusBarColor=resources.getColor(R.color.purple_500)
                 }
             }
         }
