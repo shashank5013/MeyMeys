@@ -53,7 +53,7 @@
                app:layout_constraintStart_toStartOf="parent"
                app:layout_constraintTop_toTopOf="@+id/guideline1"
                app:srcCompat="@drawable/ic_meme_placeholder"
-               android:background="@color/bg_grey"/>
+               android:background="@color/grey"/>
 
            <TextView
                android:id="@+id/author_text"
