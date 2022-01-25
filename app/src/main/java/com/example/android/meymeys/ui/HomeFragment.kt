@@ -3,7 +3,6 @@ package com.example.android.meymeys.ui
 import android.R
 import android.app.Application
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +47,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         //Initialising viewmodel
         val application = requireNotNull(this.activity).application
         val viewModelFactory = NetworkViewModelFactory(SUBREDDIT_HOME, application)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(NetworkViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[NetworkViewModel::class.java]
 
 
         adapter = setUpRecyclerView()
@@ -184,10 +183,10 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     /** Setting up Recycler View */
     private fun setUpRecyclerView(): MemeListAdapter {
         val adapter = MemeListAdapter(object : MemeClickListener {
-            override fun onclickImage(meme: Meme, imageView: ImageView) {
+            override fun onclickImage(meme: Meme) {
                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(meme))
             }
-        })
+        },)
         val listener = setUpScrollListener()
         binding.apply {
             this.homeMemeList.adapter = adapter
@@ -208,6 +207,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     ) {
         parent?.let {
             if (position != viewModel.spinnerPosition) {
+                adapter.differ.submitList(listOf())
                 val subreddit = it.getItemAtPosition(position) as String
                 viewModel.getMemesFromInternet(Subreddits[subreddit]!!)
             }

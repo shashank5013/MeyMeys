@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <external-path
+        name="external_files"
+        path="." />
+    <cache-path name="shared_images_from_glide_cache" path="image_manager_disk_cache"/>
+    <paths>
+        <root-path name="root" path="." />
+    </paths>
+
+</paths>

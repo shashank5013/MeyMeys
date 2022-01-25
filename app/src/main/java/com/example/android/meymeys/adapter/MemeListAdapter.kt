@@ -1,11 +1,13 @@
 package com.example.android.meymeys.adapter
 
-import android.app.Application
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.FileProvider
+import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -13,11 +15,17 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+import com.example.android.meymeys.BuildConfig
 import com.example.android.meymeys.R
 import com.example.android.meymeys.databinding.ListItemBinding
 import com.example.android.meymeys.model.Meme
+import java.io.File
+import java.io.FileOutputStream
+import java.nio.ByteBuffer
+import java.util.*
 
 class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Adapter<MemeListAdapter.ViewHolder>() {
 
@@ -36,8 +44,15 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
 
     })
 
+    /** ViewHolder class which  provides views to recycler view . Only ViewHolder class should know about views are laid out
+     * @param binding ListItemBinding variable
+      */
     class ViewHolder(private val binding: ListItemBinding):RecyclerView.ViewHolder(binding.root){
 
+        /** Binds layout to views
+         * @param meme Meme object
+         * @param listener listener object
+         */
         fun bind(meme:Meme,listener: MemeClickListener){
             binding.apply {
                 this.meme=meme
@@ -47,6 +62,7 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
             }
         }
 
+        /** Sets listener and images when image  has been loaded */
         private fun setImage(
             meme: Meme,
             listener: MemeClickListener
@@ -69,6 +85,7 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
                         isFirstResource: Boolean
                     ): Boolean {
                         binding.memeImage.setOnClickListener { }
+                        binding.shareImage.setOnClickListener {  }
                         return false
                     }
 
@@ -80,7 +97,12 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
                         isFirstResource: Boolean
                     ): Boolean {
                         binding.memeImage.setOnClickListener {
-                            listener.onclickImage(meme, it as ImageView)
+                            listener.onclickImage(meme)
+                        }
+                        resource?.let {drawable->
+                            binding.shareImage.setOnClickListener {
+                                shareImage(drawable)
+                            }
                         }
                         return false
                     }
@@ -89,6 +111,56 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
                 .into(binding.memeImage)
         }
 
+        /** Shares jpg/gif images through android ShareSheet */
+        private fun shareImage(drawable: Drawable) {
+
+            val isGif:Boolean = binding.meme!!.url.split('.').last()=="gif"
+
+
+            val filePath: String = saveToDir(drawable, isGif)
+            val context = binding.root.context
+            val file = File(filePath)
+            val sharingIntent = Intent(Intent.ACTION_SEND)
+            sharingIntent.type = "image/*"
+            val uri = FileProvider.getUriForFile(context,
+                BuildConfig.APPLICATION_ID + ".provider", file)
+            sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
+            context.startActivity(Intent.createChooser(sharingIntent,"Share Meme"))
+
+        }
+
+        /** Downloads image to DIR and returns the file path */
+        private fun saveToDir (image: Drawable, isGif: Boolean): String {
+
+            if(isGif){
+                val byteBuffer = (image as GifDrawable).buffer
+                val fileName = "MeyMeys${System.currentTimeMillis()}.gif"
+                val filePath = "${binding.root.context.cacheDir}/$fileName"
+                val gifFile = File(filePath)
+                val output = FileOutputStream(gifFile)
+                val bytes = ByteArray(byteBuffer.capacity())
+
+                (byteBuffer.duplicate().clear() as ByteBuffer).get(bytes)
+                output.write(bytes, 0 ,bytes.size)
+                output.close()
+
+                return filePath
+            }
+
+            val fileName = "MeyMeys${System.currentTimeMillis()}.jpg"
+            val filePath = "${binding.root.context.cacheDir}/$fileName"
+
+            val file = File(filePath)
+            FileOutputStream(file).use { output ->
+                image.toBitmap().compress(Bitmap.CompressFormat.JPEG, 100, output)
+            }
+
+            return filePath
+
+        }
+
+
+        /** Returns ViewHolder object */
         companion object{
             fun from (parent:ViewGroup):ViewHolder{
                 return ViewHolder(ListItemBinding.inflate(LayoutInflater.from(parent.context),parent,false))
@@ -96,20 +168,29 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
         }
     }
 
+    /** Creates a ViewHolder class object
+     * @param parent parent viewgroup
+     * @param viewType which view to be laid out . Useful if there are different type of views
+     */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder.from(parent)
     }
 
+    /** Determines how view should be laid out . Binds the view with layou
+     * @param holder ViewHolder object
+     * @param position position of the current list item
+     */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val meme=differ.currentList[position]
         holder.bind(meme,listener)
     }
 
+    /** Returns the size of current list */
     override fun getItemCount()=differ.currentList.size
 
-
-
 }
+
+/** ClickListener interface which determines what to do after image is clicked */
 interface MemeClickListener{
-    fun onclickImage(meme: Meme,imageView:ImageView)
+    fun onclickImage(meme: Meme)
 }
