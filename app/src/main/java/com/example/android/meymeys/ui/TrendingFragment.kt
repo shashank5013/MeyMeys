@@ -34,7 +34,7 @@ class TrendingFragment : Fragment() {
 
         //setting up Recycler View
         val adapter=MemeListAdapter(object: MemeClickListener {
-            override fun onclickImage(meme: Meme,imageView: ImageView) {
+            override fun onclickImage(meme: Meme) {
                 findNavController().navigate(TrendingFragmentDirections.actionTrendingFragmentToDetailFragment(meme))
             }
 

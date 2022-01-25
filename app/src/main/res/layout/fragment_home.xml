@@ -14,39 +14,96 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline3">
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="2">
+                <include
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    layout="@layout/data_placeholder_layout"
+                    android:layout_columnWeight="1"/>
+                <include
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    layout="@layout/data_placeholder_layout"
+                    android:layout_columnWeight="1"/>
+                <include
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    layout="@layout/data_placeholder_layout"
+                    android:layout_columnWeight="1"/>
+                <include
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    layout="@layout/data_placeholder_layout"
+                    android:layout_columnWeight="1"/>
+                <include
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    layout="@layout/data_placeholder_layout"
+                    android:layout_columnWeight="1"/>
+                <include
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    layout="@layout/data_placeholder_layout"
+                    android:layout_columnWeight="1"/>
+            </GridLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_meme_list"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_margin="4dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
+            android:scrollbars="vertical"
             app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/progress_bar"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categories_spinner"
+            app:layout_constraintTop_toTopOf="@+id/guideline3"
             app:spanCount="2"
             tools:listitem="@layout/list_item" />
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <Spinner
             android:id="@+id/categories_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
+            android:layout_width="160dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginBottom="8dp"
+            android:background="@drawable/gradient_spinner"
+            app:layout_constraintBottom_toTopOf="@+id/guideline3"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="SpeakableTextPresentCheck" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            app:layout_constraintBottom_toTopOf="@+id/home_meme_list"
+            app:layout_constraintTop_toTopOf="@+id/home_meme_list"
+            tools:layout_editor_absoluteX="8dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/black"
+            app:layout_constraintGuide_begin="64dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

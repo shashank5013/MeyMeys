@@ -6,14 +6,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.*
-import androidx.core.view.doOnLayout
-import androidx.core.view.doOnNextLayout
-import androidx.core.view.doOnPreDraw
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -52,7 +47,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         //Initialising viewmodel
         val application = requireNotNull(this.activity).application
         val viewModelFactory = NetworkViewModelFactory(SUBREDDIT_HOME, application)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(NetworkViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory)[NetworkViewModel::class.java]
 
 
         adapter = setUpRecyclerView()
@@ -64,11 +59,10 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         viewModel.memeResponse.observe(viewLifecycleOwner, {
             when (it) {
                 is Resource.Loading -> {
-                   if(adapter.differ.currentList.size==0){
+                   if(binding.categoriesSpinner.selectedItemPosition!=viewModel.spinnerPosition){
                        showProgressBar()
                        hideRecyclerView()
-                   }else{
-                       showProgressBar()
+                       viewModel.spinnerPosition=binding.categoriesSpinner.selectedItemPosition
                    }
                 }
                 is Resource.Success -> {
@@ -84,7 +78,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
                     showRecyclerView()
                     hideProgressBar()
-
 
                     Toast.makeText(context, "Error Occured", Toast.LENGTH_SHORT).show()
                 }
@@ -106,13 +99,20 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     /** Shows Progress Bar */
     private fun showProgressBar() {
-        binding.progressBar.visibility = View.VISIBLE
+        binding.shimmerProgressBar.apply {
+            visibility=View.VISIBLE
+            this.startShimmer()
+
+        }
         isLoading = true
     }
 
     /** Hides Progress Bar */
     private fun hideProgressBar() {
-        binding.progressBar.visibility = View.GONE
+        binding.shimmerProgressBar.apply {
+            visibility=View.GONE
+            this.stopShimmer()
+        }
         isLoading = false
     }
 
@@ -183,10 +183,10 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     /** Setting up Recycler View */
     private fun setUpRecyclerView(): MemeListAdapter {
         val adapter = MemeListAdapter(object : MemeClickListener {
-            override fun onclickImage(meme: Meme, imageView: ImageView) {
+            override fun onclickImage(meme: Meme) {
                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(meme))
             }
-        })
+        },)
         val listener = setUpScrollListener()
         binding.apply {
             this.homeMemeList.adapter = adapter
@@ -207,7 +207,6 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     ) {
         parent?.let {
             if (position != viewModel.spinnerPosition) {
-                viewModel.spinnerPosition = position
                 adapter.differ.submitList(listOf())
                 val subreddit = it.getItemAtPosition(position) as String
                 viewModel.getMemesFromInternet(Subreddits[subreddit]!!)

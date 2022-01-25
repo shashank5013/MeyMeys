@@ -10,11 +10,10 @@ class NetworkViewModelFactory(
     private val subreddit:String,
     private val application: Application
 ) :ViewModelProvider.Factory{
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if(modelClass.isAssignableFrom(NetworkViewModel::class.java)){
             return NetworkViewModel(subreddit,application) as T
         }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
+        throw IllegalArgumentException("Unknown ViewModel class")    }
 
 }
