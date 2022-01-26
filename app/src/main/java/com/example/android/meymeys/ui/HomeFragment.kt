@@ -22,6 +22,7 @@ import com.example.android.meymeys.utils.SUBREDDIT_HOME
 import com.example.android.meymeys.utils.Subreddits
 import com.example.android.meymeys.viewmodel.NetworkViewModel
 import com.example.android.meymeys.viewmodelfactory.NetworkViewModelFactory
+import java.lang.Exception
 
 
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -58,28 +59,33 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         //Observing data coming from the internet
         viewModel.memeResponse.observe(viewLifecycleOwner, {
             when (it) {
-                is Resource.Loading -> {
-                   if(binding.categoriesSpinner.selectedItemPosition!=viewModel.spinnerPosition){
+                is Resource.Loading-> {
                        showProgressBar()
                        hideRecyclerView()
+                       hideConnectionError()
                        viewModel.spinnerPosition=binding.categoriesSpinner.selectedItemPosition
-                   }
+                }
+                is Resource.LoadingExtra ->{
+                    hideProgressBar()
+                    showRecyclerView()
                 }
                 is Resource.Success -> {
                     adapter.differ.submitList(it.data?.memes?.toList())
 
-
+                    hideConnectionError()
                     hideProgressBar()
                     showRecyclerView()
-
 
                 }
-                else -> {
-
-                    showRecyclerView()
+                is Resource.ErrorExtra ->{
                     hideProgressBar()
-
-                    Toast.makeText(context, "Error Occured", Toast.LENGTH_SHORT).show()
+                    hideConnectionError()
+                    showRecyclerView()
+                }
+                else -> {
+                        hideRecyclerView()
+                        hideProgressBar()
+                        showConnectionError()
                 }
             }
         })
@@ -89,6 +95,12 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         layoutManager.gapStrategy = StaggeredGridLayoutManager.GAP_HANDLING_NONE
         layoutManager.invalidateSpanAssignments()
         binding.homeMemeList.layoutManager = layoutManager
+
+
+        //Setting onClickListener on retry button of connection error layout
+        binding.errorLayout.retryBtn.setOnClickListener{
+            makeNetworkCall()
+        }
 
 
         setUpSpinner(application)
@@ -124,6 +136,15 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     /** Hides Recycler View */
     private fun hideRecyclerView() {
         binding.homeMemeList.visibility = View.INVISIBLE
+    }
+
+    /** Hides Connection Error layout */
+    private fun hideConnectionError(){
+        binding.error.visibility=View.GONE
+    }
+    /** Shows Connection Error layout */
+    private fun showConnectionError(){
+        binding.error.visibility=View.VISIBLE
     }
 
     /** Setting up spinner for categories */
@@ -207,15 +228,21 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     ) {
         parent?.let {
             if (position != viewModel.spinnerPosition) {
-                adapter.differ.submitList(listOf())
-                val subreddit = it.getItemAtPosition(position) as String
-                viewModel.getMemesFromInternet(Subreddits[subreddit]!!)
+                makeNetworkCall()
             }
         }
     }
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
 
+    }
+
+
+    /** Makes network call with view model . Handles any exception and no internet*/
+    private fun makeNetworkCall(){
+        adapter.differ.submitList(listOf())
+        val subreddit = binding.categoriesSpinner.selectedItem as String
+        viewModel.getMemesFromInternet(Subreddits[subreddit]!!)
     }
 
 
