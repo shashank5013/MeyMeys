@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Setting theme back to normal
+        setTheme(R.style.Theme_MeyMeys)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
