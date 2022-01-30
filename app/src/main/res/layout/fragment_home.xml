@@ -59,6 +59,19 @@
             </GridLayout>
         </com.facebook.shimmer.ShimmerFrameLayout>
 
+        <FrameLayout
+            android:id="@+id/error"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/guideline3">
+            <include
+                android:id="@+id/error_layout"
+                layout="@layout/conntection_error" />
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_meme_list"

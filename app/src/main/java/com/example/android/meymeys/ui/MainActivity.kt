@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Setting theme back to normal
+        setTheme(R.style.Theme_MeyMeys)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -89,9 +93,9 @@ class MainActivity : AppCompatActivity() {
                      window.statusBarColor=Color.BLACK
                  }
                 else -> {
-                    val color=ColorDrawable(resources.getColor(R.color.purple_500))
+                    val color=ColorDrawable(resources.getColor(R.color.green))
                     supportActionBar?.setBackgroundDrawable(color)
-                    window.statusBarColor=resources.getColor(R.color.purple_500)
+                    window.statusBarColor=resources.getColor(R.color.green)
                 }
             }
         }

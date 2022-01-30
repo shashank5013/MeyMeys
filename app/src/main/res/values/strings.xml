@@ -5,4 +5,7 @@
     <string name="home">Home</string>
     <string name="trending">Trending</string>
     <string name="about">About</string>
+    <string name="error">Connection Error</string>
+    <string name="error_text">Something\'s not right . Please try checking both wifi/4G or try again later .</string>
+    <string name="retry">retry</string>
 </resources>
