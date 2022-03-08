@@ -22,7 +22,6 @@ import com.example.android.meymeys.utils.SUBREDDIT_HOME
 import com.example.android.meymeys.utils.Subreddits
 import com.example.android.meymeys.viewmodel.NetworkViewModel
 import com.example.android.meymeys.viewmodelfactory.NetworkViewModelFactory
-import java.lang.Exception
 
 
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -41,6 +40,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 
@@ -57,15 +57,15 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
 
         //Observing data coming from the internet
-        viewModel.memeResponse.observe(viewLifecycleOwner, {
+        viewModel.memeResponse.observe(viewLifecycleOwner) {
             when (it) {
-                is Resource.Loading-> {
-                       showProgressBar()
-                       hideRecyclerView()
-                       hideConnectionError()
-                       viewModel.spinnerPosition=binding.categoriesSpinner.selectedItemPosition
+                is Resource.Loading -> {
+                    showProgressBar()
+                    hideRecyclerView()
+                    hideConnectionError()
+                    viewModel.spinnerPosition = binding.categoriesSpinner.selectedItemPosition
                 }
-                is Resource.LoadingExtra ->{
+                is Resource.LoadingExtra -> {
                     hideProgressBar()
                     showRecyclerView()
                 }
@@ -77,18 +77,18 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     showRecyclerView()
 
                 }
-                is Resource.ErrorExtra ->{
+                is Resource.ErrorExtra -> {
                     hideProgressBar()
                     hideConnectionError()
                     showRecyclerView()
                 }
                 else -> {
-                        hideRecyclerView()
-                        hideProgressBar()
-                        showConnectionError()
+                    hideRecyclerView()
+                    hideProgressBar()
+                    showConnectionError()
                 }
             }
-        })
+        }
 
         //Handling gaping strategy so that list doesn't swap columns
         val layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)

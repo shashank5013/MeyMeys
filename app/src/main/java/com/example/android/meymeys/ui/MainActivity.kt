@@ -47,13 +47,12 @@ class MainActivity : AppCompatActivity() {
 
         //Setting up bottom navigation view and drawer navigation view with navController
         binding.apply {
-            bottomNavigationView.setupWithNavController(navController)
             navView.setupWithNavController(navController)
         }
 
         //setting up Action Bar with app bar configuration
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment, R.id.trendingFragment),
+            setOf(R.id.homeFragment),
             binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -73,17 +72,6 @@ class MainActivity : AppCompatActivity() {
     /** Sets up  bottom navigation view and drawer menu and hides it when unnecessary */
     private fun setupBottomNavView() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
-            when (destination.id) {
-                R.id.homeFragment, R.id.trendingFragment  -> {
-                    binding.bottomNavigationView.visibility = View.GONE
-                    binding.drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
-
-                }
-                else -> {
-                    binding.bottomNavigationView.visibility = View.GONE
-                    binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
-                }
-            }
 
             //Sets color of action bar on different fragments
             when (destination.id){

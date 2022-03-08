@@ -15,15 +15,6 @@
             app:destination="@id/detailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/trendingFragment"
-        android:name="com.example.android.meymeys.ui.TrendingFragment"
-        android:label="@string/trending"
-        tools:layout="@layout/fragment_trending" >
-        <action
-            android:id="@+id/action_trendingFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.android.meymeys.ui.DetailFragment"
         android:label=""
