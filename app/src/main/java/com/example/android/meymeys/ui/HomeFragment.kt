@@ -2,6 +2,7 @@ package com.example.android.meymeys.ui
 
 import android.R
 import android.app.Application
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -109,6 +110,11 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        adapter.differ.submitList(viewModel.allMemes?.memes?.toList())
+    }
+
     /** Shows Progress Bar */
     private fun showProgressBar() {
         binding.shimmerProgressBar.apply {
@@ -206,6 +212,10 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         val adapter = MemeListAdapter(object : MemeClickListener {
             override fun onclickImage(meme: Meme) {
                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToDetailFragment(meme))
+            }
+
+            override fun onclickShare(uri: Uri) {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToShareFragment(uri))
             }
         },)
         val listener = setUpScrollListener()

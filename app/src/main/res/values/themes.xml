@@ -12,13 +12,27 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        
+        <item name="bottomSheetDialogTheme">@style/bottomDialogTheme</item>
     </style>
 
+<!--    Bottom Dialog Theme-->
+    <style name="bottomDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_bg</item>
+    </style>
+
+<!--    Splash Screen Theme-->
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_background</item>
         <item name="android:navigationBarColor">#5c8c73</item>
         <item name="android:statusBarColor">#5c8c73</item>
     </style>
+
 
     <style name="DetailFragmentActionBar" parent="Theme.AppCompat.DayNight.DarkActionBar">
         <item name="actionBarStyle">@style/MyActionBar</item>

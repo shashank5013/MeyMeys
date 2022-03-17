@@ -3,6 +3,7 @@ package com.example.android.meymeys.adapter
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
@@ -100,8 +101,10 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
                             listener.onclickImage(meme)
                         }
                         resource?.let {drawable->
+                            val uri=shareImage(drawable)
                             binding.shareImage.setOnClickListener {
-                                shareImage(drawable)
+                                it.isEnabled=false
+                                listener.onclickShare(uri)
                             }
                         }
                         return false
@@ -112,9 +115,9 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
         }
 
         /** Shares jpg/gif images through android ShareSheet */
-        private fun shareImage(drawable: Drawable) {
+        private fun shareImage(drawable: Drawable): Uri {
 
-            val isGif:Boolean = binding.meme!!.url.split('.').last()=="gif"
+            val isGif: Boolean = binding.meme!!.url.split('.').last() == "gif"
 
 
             val filePath: String = saveToDir(drawable, isGif)
@@ -122,10 +125,10 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
             val file = File(filePath)
             val sharingIntent = Intent(Intent.ACTION_SEND)
             sharingIntent.type = "image/*"
-            val uri = FileProvider.getUriForFile(context,
-                BuildConfig.APPLICATION_ID + ".provider", file)
-            sharingIntent.putExtra(Intent.EXTRA_STREAM, uri)
-            context.startActivity(Intent.createChooser(sharingIntent,"Share Meme"))
+            return FileProvider.getUriForFile(
+                context,
+                BuildConfig.APPLICATION_ID + ".provider", file
+            )
 
         }
 
@@ -193,4 +196,5 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
 /** ClickListener interface which determines what to do after image is clicked */
 interface MemeClickListener{
     fun onclickImage(meme: Meme)
+    fun onclickShare(uri:Uri)
 }

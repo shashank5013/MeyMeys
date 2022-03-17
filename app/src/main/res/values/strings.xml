@@ -8,4 +8,5 @@
     <string name="error">Connection Error</string>
     <string name="error_text">Something\'s not right . Please try checking both wifi/4G or try again later .</string>
     <string name="retry">retry</string>
+    <string name="share">Share</string>
 </resources>
