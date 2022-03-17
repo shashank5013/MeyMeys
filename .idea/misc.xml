@@ -7,6 +7,7 @@
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_about.xml" value="0.27314814814814814" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_arrow_drop_down.xml" value="0.27685185185185185" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_baseline_ios_share_24.xml" value="0.21796875" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_cancel.xml" value="0.2225" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_delete.xml" value="0.2490740740740741" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_favourite.xml" value="0.2490740740740741" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_home.xml" value="0.24814814814814815" />
@@ -16,18 +17,21 @@
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/ic_yaoming_meme.xml" value="0.21796875" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/nav_header.xml" value="0.27685185185185185" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/placeholder_background.xml" value="0.21796875" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/rounded_bg.xml" value="0.203" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/selector_favourite.xml" value="0.2712962962962963" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/drawable/splash_background.xml" value="0.21796875" />
-        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/activity_main.xml" value="0.27447916666666666" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/conntection_error.xml" value="0.205859375" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/data_placeholder_layout.xml" value="0.20347490347490346" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_about.xml" value="0.2864583333333333" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_detail.xml" value="0.27025641025641023" />
-        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_home.xml" value="0.16" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_india.xml" value="0.27025641025641023" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_share.xml" value="0.264" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/fragment_trending.xml" value="0.27025641025641023" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/list_item.xml" value="0.2" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/no_internet.xml" value="0.205859375" />
+        <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/layout/share_item.xml" value="0.203125" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/menu/botton_nav_menu.xml" value="0.27447916666666666" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/menu/drawer_menu.xml" value="0.27447916666666666" />
         <entry key="..\:/StudyMaterial/Android/MeyMeys/app/src/main/res/xml/provider_paths.xml" value="0.205859375" />
