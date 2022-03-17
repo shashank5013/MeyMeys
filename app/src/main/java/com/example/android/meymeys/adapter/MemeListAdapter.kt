@@ -30,6 +30,11 @@ import java.util.*
 
 class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Adapter<MemeListAdapter.ViewHolder>() {
 
+    // Time of last click in ms
+    companion object{
+        var mClickTime=0L
+    }
+
     /** Async List Differ object which calculates difference between two lists faster
      * @param adapter Recycler View Adapter
      * @param callback DiffUtil callback object
@@ -103,8 +108,10 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
                         resource?.let {drawable->
                             val uri=shareImage(drawable)
                             binding.shareImage.setOnClickListener {
-                                it.isEnabled=false
-                                listener.onclickShare(uri)
+                                if(System.currentTimeMillis()-mClickTime>=2000L){
+                                    listener.onclickShare(uri)
+                                    mClickTime=System.currentTimeMillis()
+                                }
                             }
                         }
                         return false
