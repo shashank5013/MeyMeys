@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
 import androidx.fragment.app.commit
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
         //setting up Action Bar with app bar configuration
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.homeFragment),
+            setOf(R.id.homeFragment,R.id.loginFragment),
             binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -74,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
 
             //Sets color of action bar on different fragments
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
             when (destination.id){
                  R.id.detailFragment -> {
                      val color=ColorDrawable(Color.BLACK)
@@ -84,8 +86,15 @@ class MainActivity : AppCompatActivity() {
                     val color=ColorDrawable(resources.getColor(R.color.green))
                     supportActionBar?.setBackgroundDrawable(color)
                     window.statusBarColor=resources.getColor(R.color.green)
+
+                    //Not displaying navigation drawer in login fragment
+                    if(destination.id == R.id.loginFragment){
+                        supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    }
                 }
             }
+
+
         }
     }
 
