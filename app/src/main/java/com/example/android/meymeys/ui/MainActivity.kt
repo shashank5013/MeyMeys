@@ -19,6 +19,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.android.meymeys.R
 import com.example.android.meymeys.databinding.ActivityMainBinding
+import com.example.android.meymeys.utils.initShareItemList
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, appBarConfiguration)
 
         setupBottomNavView()
+        initShareItemList(applicationContext)
     }
 
     /** Handles back press when layout is open */

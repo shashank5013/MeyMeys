@@ -108,7 +108,7 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
                         resource?.let {drawable->
                             val uri=shareImage(drawable)
                             binding.shareImage.setOnClickListener {
-                                if(System.currentTimeMillis()-mClickTime>=2000L){
+                                if(System.currentTimeMillis()-mClickTime>=1000L){
                                     listener.onclickShare(uri)
                                     mClickTime=System.currentTimeMillis()
                                 }
