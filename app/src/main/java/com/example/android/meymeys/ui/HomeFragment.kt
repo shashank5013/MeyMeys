@@ -1,18 +1,18 @@
 package com.example.android.meymeys.ui
 
-import android.R
 import android.app.Application
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.android.meymeys.R
 import com.example.android.meymeys.adapter.MemeClickListener
 import com.example.android.meymeys.adapter.MemeListAdapter
 import com.example.android.meymeys.databinding.FragmentHomeBinding
@@ -106,13 +106,21 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
         setUpSpinner(application)
 
+        //Enables options menu
+        setHasOptionsMenu(true)
 
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        adapter.differ.submitList(viewModel.allMemes?.memes?.toList())
+    /** Inflates the options menu */
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_home,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    /** Action to be performed when menu item is clicked */
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return NavigationUI.onNavDestinationSelected(item,findNavController())||super.onOptionsItemSelected(item)
     }
 
     /** Shows Progress Bar */
@@ -157,8 +165,8 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private fun setUpSpinner(application: Application) {
         val spinnerArray = Subreddits.keys.toTypedArray()
         val spinnerAdapter =
-            ArrayAdapter(application, R.layout.simple_spinner_item, spinnerArray).also {
-                it.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+            ArrayAdapter(application, android.R.layout.simple_spinner_item, spinnerArray).also {
+                it.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
         binding.categoriesSpinner.apply {
             setSelection(0)

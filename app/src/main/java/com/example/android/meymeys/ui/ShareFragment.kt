@@ -12,6 +12,7 @@ import com.example.android.meymeys.adapter.ShareClickListener
 import com.example.android.meymeys.adapter.ShareListAdapter
 import com.example.android.meymeys.databinding.FragmentShareBinding
 import com.example.android.meymeys.model.ShareItem
+import com.example.android.meymeys.utils.shareItemList
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 
@@ -39,25 +40,7 @@ class ShareFragment : BottomSheetDialogFragment() {
         val uri=args.imageUri
 
 
-        val intent= Intent(Intent.ACTION_SEND).apply {
-            type="image/*"
-            putExtra(Intent.EXTRA_STREAM,uri)
-        }
 
-        // Creating a list of shareable activities
-        val activities=requireContext().packageManager.queryIntentActivities(intent,0x00010000)
-
-        val shareItemList= mutableListOf<ShareItem>()
-
-        for(data in activities){
-            shareItemList.add(
-                ShareItem(
-                    data.loadLabel(activity.packageManager).toString(),
-                    data.loadIcon(activity.packageManager),
-                    data.activityInfo.packageName
-                )
-            )
-        }
 
         setUpRecyclerView(shareItemList,uri)
         return binding.root

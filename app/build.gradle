@@ -7,6 +7,8 @@ plugins {
 
 }
 apply plugin: 'kotlin-android'
+apply plugin: 'com.google.gms.google-services'
+
 
 android {
     compileSdk 31
@@ -72,6 +74,17 @@ dependencies {
 
     //Shimmer Layout for progress bar
     implementation 'com.facebook.shimmer:shimmer:0.5.0@aar'
+
+    //Firebase BOM
+    implementation platform('com.google.firebase:firebase-bom:29.2.1')
+
+    //Firebase Authentication
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
+    //Google play authentication
+    // Google Play Services
+    implementation 'com.google.android.gms:play-services-auth:20.1.0'
+
 
     testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
