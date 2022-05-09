@@ -3,13 +3,8 @@ package com.example.android.meymeys.ui
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
-import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
-import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
-import androidx.fragment.app.commit
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -92,6 +87,10 @@ class MainActivity : AppCompatActivity() {
                     //Not displaying navigation drawer in login fragment
                     if(destination.id == R.id.loginFragment){
                         supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                        supportActionBar?.hide()
+                    }
+                    else{
+                        supportActionBar?.show()
                     }
                 }
             }

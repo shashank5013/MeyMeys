@@ -85,6 +85,16 @@ dependencies {
     // Google Play Services
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
 
+    //Firebase Firestore
+    implementation 'com.google.firebase:firebase-firestore-ktx'
+
+    //Coroutines for firebase
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.5.1'
+
+    //Lottie for animation
+    def lottieVersion = "5.0.3"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+
 
     testImplementation 'junit:junit:'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

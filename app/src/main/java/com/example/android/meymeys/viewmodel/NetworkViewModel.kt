@@ -4,11 +4,13 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities.*
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.android.meymeys.application.BaseApplication
+import com.example.android.meymeys.model.FavouriteMeme
 import com.example.android.meymeys.model.Meme
 import com.example.android.meymeys.model.MemeResponse
 import com.example.android.meymeys.repository.NetworkRepository
@@ -16,6 +18,7 @@ import com.example.android.meymeys.utils.COUNT
 import com.example.android.meymeys.utils.Resource
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import kotlin.jvm.Throws
 
 class NetworkViewModel(private val subreddit:String,application: Application) : AndroidViewModel(application){
 
@@ -32,6 +35,15 @@ class NetworkViewModel(private val subreddit:String,application: Application) : 
 
     //Spinner selected item
     var spinnerPosition=-1
+
+    // Exception Boolean variable
+    // 0 represents Exception
+    // 1 represents Success
+    // -1 represents neutral state
+
+    private val _exception=MutableLiveData<Int>()
+    val exception:LiveData<Int>
+    get() = _exception
 
     /** Gets extra list of memes from the internet **/
     fun getExtraMemesFromInternet(subreddit: String)=viewModelScope.launch {
@@ -58,10 +70,10 @@ class NetworkViewModel(private val subreddit:String,application: Application) : 
                 _memeResponse.value=handleResponse(response,false)
             }
             else{
-                throw Throwable()
+                throw Exception("No Internet")
             }
-        }catch (t:Throwable){
-            _memeResponse.value=Resource.Error("")
+        }catch (e:Exception){
+            _memeResponse.value=Resource.Error(e.message)
         }
     }
 
@@ -82,7 +94,7 @@ class NetworkViewModel(private val subreddit:String,application: Application) : 
     }
 
     /** Checks Internet Connection */
-    fun hasInternetConnection():Boolean{
+    private fun hasInternetConnection():Boolean{
         val connectivityManager=getApplication<BaseApplication>().getSystemService(
             Context.CONNECTIVITY_SERVICE
         ) as ConnectivityManager
@@ -95,5 +107,26 @@ class NetworkViewModel(private val subreddit:String,application: Application) : 
             capabilities.hasTransport(TRANSPORT_ETHERNET) -> return true
             else -> false
         }
+    }
+
+    @Throws(Exception::class)
+        /** Uploads meme to firebase */
+    fun uploadMemeToFirebase(meme: FavouriteMeme)=viewModelScope.launch {
+        if(hasInternetConnection()){
+            try{
+                repository.uploadMemeToFirebase(meme)
+                _exception.value=1
+            }catch (e:Exception){
+                _exception.value=0
+            }
+        }
+        else{
+            _exception.value=0
+        }
+    }
+
+    /** Resets the exception variable */
+    fun resetException(){
+        _exception.value=-1
     }
 }
