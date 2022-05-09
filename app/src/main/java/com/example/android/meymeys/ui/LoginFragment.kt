@@ -35,12 +35,15 @@ class LoginFragment : Fragment() {
     //Firebase auth
     private lateinit var  auth:FirebaseAuth
 
+    //Binding variable
+    private lateinit var binding: FragmentLoginBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        val binding=FragmentLoginBinding.inflate(layoutInflater,container,false)
+        binding=FragmentLoginBinding.inflate(layoutInflater,container,false)
 
         //Initialising auth variable
         auth= Firebase.auth
@@ -77,10 +80,13 @@ class LoginFragment : Fragment() {
         if(requestCode==RC_SIGN_IN){
             val task=GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
+                showProgressBar()
+                hideSignInBtn()
                 val account=task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account.idToken!!)
             }catch (e:Exception){
-                Snackbar.make(requireView(),getString(R.string.error_text),Snackbar.LENGTH_SHORT).show()
+                showSignInBtn()
+                hideProgressBar()
             }
         }
     }
@@ -93,6 +99,8 @@ class LoginFragment : Fragment() {
                 updateUI(task.result.user)
             }
             else{
+                showSignInBtn()
+                hideProgressBar()
                 Snackbar.make(requireView(),getString(R.string.error_text),Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -102,5 +110,26 @@ class LoginFragment : Fragment() {
     private fun updateUI(user: FirebaseUser?) {
         user?.let { findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToHomeFragment()) }
     }
+
+    /** Shows the progress bar */
+    private fun showProgressBar(){
+        binding.progressBar.visibility=View.VISIBLE
+    }
+
+    /** Hides the progress bar */
+    private fun hideProgressBar(){
+        binding.progressBar.visibility=View.INVISIBLE
+    }
+
+    /** Shows the signIn button */
+    private fun showSignInBtn(){
+        binding.signInBtn.visibility=View.VISIBLE
+    }
+
+    /** Hides the signIn button */
+    private fun hideSignInBtn(){
+        binding.signInBtn.visibility=View.INVISIBLE
+    }
+
 
 }

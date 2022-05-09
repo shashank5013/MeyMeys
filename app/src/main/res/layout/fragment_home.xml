@@ -70,7 +70,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline3">
             <include
                 android:id="@+id/error_layout"
-                layout="@layout/conntection_error" />
+                layout="@layout/connection_error" />
         </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView

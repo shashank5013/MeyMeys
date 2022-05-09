@@ -12,16 +12,18 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            />
         <action
             android:id="@+id/action_homeFragment_to_shareFragment"
-            app:destination="@id/shareFragment" />
+            app:destination="@id/shareFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.example.android.meymeys.ui.DetailFragment"
         android:label=""
-        tools:layout="@layout/fragment_detail" >
+        tools:layout="@layout/fragment_detail">
         <argument
             android:name="meme"
             app:argType="com.example.android.meymeys.model.Meme" />
@@ -63,5 +65,16 @@
             app:destination="@id/loginFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/favouriteFragment"
+        android:name="com.example.android.meymeys.ui.FavouriteFragment"
+        android:label="Favourite Memes" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_shareFragment"
+            app:destination="@id/shareFragment" />
     </fragment>
 </navigation>

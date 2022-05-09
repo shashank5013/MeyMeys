@@ -1,17 +1,17 @@
 package com.example.android.meymeys.model
 
 import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Meme(
-    val author: String,
-    val nsfw: Boolean,
-    val postLink: String,
-    val preview: List<String>,
-    val spoiler: Boolean,
-    val subreddit: String,
-    val title: String,
-    val ups: Int,
-    val url: String
+    var author: String="",
+    var nsfw: Boolean=true,
+    var postLink: String="",
+    var preview: List<String>?=null,
+    var spoiler: Boolean=true,
+    var subreddit: String="",
+    var title: String="",
+    var ups: Int=0,
+    var url: String=""
 ):Parcelable

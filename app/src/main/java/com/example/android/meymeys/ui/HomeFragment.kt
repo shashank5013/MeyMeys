@@ -3,11 +3,14 @@ package com.example.android.meymeys.ui
 import android.app.Application
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
-import android.widget.*
+import android.widget.AbsListView
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +19,7 @@ import com.example.android.meymeys.R
 import com.example.android.meymeys.adapter.MemeClickListener
 import com.example.android.meymeys.adapter.MemeListAdapter
 import com.example.android.meymeys.databinding.FragmentHomeBinding
+import com.example.android.meymeys.model.FavouriteMeme
 import com.example.android.meymeys.model.Meme
 import com.example.android.meymeys.utils.QUERY_PAGE_SIZE
 import com.example.android.meymeys.utils.Resource
@@ -23,6 +27,8 @@ import com.example.android.meymeys.utils.SUBREDDIT_HOME
 import com.example.android.meymeys.utils.Subreddits
 import com.example.android.meymeys.viewmodel.NetworkViewModel
 import com.example.android.meymeys.viewmodelfactory.NetworkViewModelFactory
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
@@ -87,7 +93,20 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     hideRecyclerView()
                     hideProgressBar()
                     showConnectionError()
+                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
                 }
+            }
+        }
+
+        //Observing Exception Variable
+        viewModel.exception.observe(viewLifecycleOwner){
+            if(it==0){
+                Toast.makeText(requireContext(),getString(R.string.error_text),Toast.LENGTH_SHORT).show()
+                viewModel.resetException()
+            }
+            else if(it==1){
+                Toast.makeText(requireContext(),getString(R.string.success_save),Toast.LENGTH_SHORT).show()
+                viewModel.resetException()
             }
         }
 
@@ -225,7 +244,13 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
             override fun onclickShare(uri: Uri) {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToShareFragment(uri))
             }
-        },)
+
+            override fun onclickFavourite(meme: Meme) {
+                    val uid= Firebase.auth.currentUser!!.uid
+                    val finalMeme= FavouriteMeme(meme,uid)
+                    viewModel.uploadMemeToFirebase(finalMeme)
+            }
+        },false)
         val listener = setUpScrollListener()
         binding.apply {
             this.homeMemeList.adapter = adapter

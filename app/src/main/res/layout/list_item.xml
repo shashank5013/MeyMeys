@@ -109,16 +109,16 @@
                android:layout_marginTop="12dp"
                android:layout_marginEnd="24dp"
                android:layout_marginBottom="8dp"
-               android:clickable="true"
                android:background="?android:attr/selectableItemBackground"
+               android:clickable="true"
                app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintEnd_toStartOf="@+id/checkBox"
+               app:layout_constraintEnd_toStartOf="@+id/favourite_btn"
                app:layout_constraintTop_toBottomOf="@+id/memeImage"
                app:layout_constraintVertical_bias="1.0"
                app:srcCompat="@drawable/ic_baseline_ios_share_24" />
 
            <CheckBox
-               android:id="@+id/checkBox"
+               android:id="@+id/favourite_btn"
                android:layout_width="24dp"
                android:layout_height="24dp"
                android:layout_marginTop="12dp"
@@ -132,6 +132,7 @@
                app:layout_constraintEnd_toEndOf="parent"
                app:layout_constraintTop_toBottomOf="@+id/memeImage"
                app:layout_constraintVertical_bias="1.0" />
+
        </androidx.constraintlayout.widget.ConstraintLayout>
    </androidx.cardview.widget.CardView>
 </layout>

@@ -6,8 +6,11 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CheckBox
 import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
@@ -18,6 +21,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.load.resource.gif.GifDrawable
 import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.android.meymeys.BuildConfig
 import com.example.android.meymeys.R
@@ -28,7 +32,7 @@ import java.io.FileOutputStream
 import java.nio.ByteBuffer
 import java.util.*
 
-class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Adapter<MemeListAdapter.ViewHolder>() {
+class MemeListAdapter(private val listener: MemeClickListener,private val isFavouriteFragment:Boolean) : RecyclerView.Adapter<MemeListAdapter.ViewHolder>() {
 
     // Time of last click in ms
     companion object{
@@ -59,12 +63,26 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
          * @param meme Meme object
          * @param listener listener object
          */
-        fun bind(meme:Meme,listener: MemeClickListener){
+        fun bind(meme:Meme,listener: MemeClickListener, isFavouriteFragment: Boolean){
             binding.apply {
                 this.meme=meme
                 executePendingBindings()
                 setImage(meme, listener)
-
+                if(isFavouriteFragment){
+                    binding.favouriteBtn.apply {
+                        this.setBackgroundResource(R.drawable.ic_delete)
+                    }
+                    binding.favouriteBtn.setOnClickListener {
+                        listener.onclickFavourite(meme)
+                    }
+                }
+                else{
+                    binding.favouriteBtn.setOnClickListener { it as CheckBox
+                        if(it.isChecked){
+                            listener.onclickFavourite(meme)
+                        }
+                    }
+                }
             }
         }
 
@@ -105,6 +123,7 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
                         binding.memeImage.setOnClickListener {
                             listener.onclickImage(meme)
                         }
+
                         resource?.let {drawable->
                             val uri=shareImage(drawable)
                             binding.shareImage.setOnClickListener {
@@ -192,7 +211,7 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
      */
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val meme=differ.currentList[position]
-        holder.bind(meme,listener)
+        holder.bind(meme,listener,isFavouriteFragment)
     }
 
     /** Returns the size of current list */
@@ -204,4 +223,5 @@ class MemeListAdapter(private val listener: MemeClickListener) : RecyclerView.Ad
 interface MemeClickListener{
     fun onclickImage(meme: Meme)
     fun onclickShare(uri:Uri)
+    fun onclickFavourite(meme:Meme)
 }
