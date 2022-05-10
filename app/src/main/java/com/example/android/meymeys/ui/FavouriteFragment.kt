@@ -19,6 +19,8 @@ import com.example.android.meymeys.model.Meme
 import com.example.android.meymeys.utils.Resource
 import com.example.android.meymeys.viewmodel.FavouriteViewModel
 import com.example.android.meymeys.viewmodelfactory.FavouriteViewModelFactory
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import java.lang.Exception
@@ -72,7 +74,9 @@ class FavouriteFragment : Fragment() {
                         hideRecyclerView()
                         hideProgressBar()
                         showConnectionError()
-                        Toast.makeText(requireContext(),it.message, Toast.LENGTH_LONG).show()
+                        Snackbar.make(binding.view,it.message.toString(),
+                            BaseTransientBottomBar.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
@@ -80,11 +84,15 @@ class FavouriteFragment : Fragment() {
         //Observing Exception variable
         viewModel.exception.observe(viewLifecycleOwner){
             if(it==1){
-                Toast.makeText(requireContext(),getString(R.string.success_delete),Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.view,getString(R.string.success_delete),
+                    BaseTransientBottomBar.LENGTH_SHORT
+                ).show()
                 viewModel.resetException()
             }
             else if(it==0){
-                Toast.makeText(requireContext(),getString(R.string.error_text),Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.view,getString(R.string.error_text),
+                    BaseTransientBottomBar.LENGTH_SHORT
+                ).show()
                 viewModel.resetException()
             }
         }

@@ -48,7 +48,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.example.android.meymeys.ui.LoginFragment"
-        android:label="Login" >
+        android:label="" >
         <action
             android:id="@+id/action_loginFragment_to_homeFragment"
             app:destination="@id/homeFragment"
@@ -58,7 +58,7 @@
     <fragment
         android:id="@+id/userFragment"
         android:name="com.example.android.meymeys.ui.UserFragment"
-        android:label="User"
+        android:label="Profile"
         tools:layout="@layout/fragment_user" >
         <action
             android:id="@+id/action_userFragment_to_loginFragment"

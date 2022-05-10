@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.android.meymeys.R
 import com.example.android.meymeys.databinding.FragmentUserBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -37,7 +39,23 @@ class UserFragment : Fragment() {
         //Initialising auth variable
         auth=Firebase.auth
 
-        binding.userNameText.text=auth.currentUser!!.displayName
+        //Data binding
+        binding.user=auth.currentUser
+        binding.executePendingBindings()
+
+        val url=auth.currentUser?.photoUrl
+        url?.let {
+            Glide.with(binding.profileImage.context)
+                .load(url)
+                .placeholder(
+                    AppCompatResources.getDrawable(
+                        binding.profileImage.context,
+                        R.drawable.ic_meme_placeholder
+                    )
+                )
+                .into(binding.profileImage)
+        }
+
 
         //Sign out onclick listener
         binding.signoutBtn.setOnClickListener {
