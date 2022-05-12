@@ -13,6 +13,10 @@
         <action
             android:id="@+id/action_homeFragment_to_detailFragment"
             app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
             />
         <action
             android:id="@+id/action_homeFragment_to_shareFragment"
@@ -27,9 +31,7 @@
         <argument
             android:name="meme"
             app:argType="com.example.android.meymeys.model.Meme" />
-        <action
-            android:id="@+id/action_detailFragment_to_shareFragment"
-            app:destination="@id/shareFragment" />
+
     </fragment>
     <fragment
         android:id="@+id/aboutFragment"
@@ -64,6 +66,10 @@
             android:id="@+id/action_userFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:popUpTo="@id/homeFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -72,7 +78,11 @@
         android:label="Favourite Memes" >
         <action
             android:id="@+id/action_favouriteFragment_to_detailFragment"
-            app:destination="@id/detailFragment" />
+            app:destination="@id/detailFragment"
+            app:enterAnim="@anim/slide_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/slide_out"/>
         <action
             android:id="@+id/action_favouriteFragment_to_shareFragment"
             app:destination="@id/shareFragment" />
