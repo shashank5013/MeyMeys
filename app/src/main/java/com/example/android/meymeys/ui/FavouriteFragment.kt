@@ -61,19 +61,27 @@ class FavouriteFragment : Fragment() {
                         showProgressBar()
                         hideRecyclerView()
                         hideConnectionError()
+                        hideText()
                     }
                     is Resource.Success -> {
                         adapter.differ.submitList(it.data?.memes?.toList())
-
                         hideConnectionError()
                         hideProgressBar()
                         showRecyclerView()
+
+                        if(it.data!!.count==0){
+                            showText()
+                        }
+                        else{
+                            hideText()
+                        }
 
                     }
                     else -> {
                         hideRecyclerView()
                         hideProgressBar()
                         showConnectionError()
+                        hideText()
                         Snackbar.make(binding.view,it.message.toString(),
                             BaseTransientBottomBar.LENGTH_SHORT
                         ).show()
@@ -109,6 +117,16 @@ class FavouriteFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    /** hides save meme text */
+    private fun hideText() {
+        binding.saveMemeText.visibility = View.GONE
+    }
+
+    /** Shows save meme text*/
+    private fun showText() {
+        binding.saveMemeText.visibility = View.VISIBLE
     }
 
     /** Retrieves data from firebase */

@@ -63,6 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1" />
+
             </GridLayout>
 
         </com.facebook.shimmer.ShimmerFrameLayout>
@@ -80,6 +81,17 @@
             app:layout_constraintTop_toTopOf="parent"
             app:spanCount="2"
             tools:listitem="@layout/list_item" />
+        <TextView
+            android:id="@+id/save_meme_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="24sp"
+            android:textColor="@color/black"
+            android:text="@string/save_meme" />
 
         <FrameLayout
             android:id="@+id/favourite_error"

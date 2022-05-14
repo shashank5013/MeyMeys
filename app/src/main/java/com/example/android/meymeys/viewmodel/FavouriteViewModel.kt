@@ -48,8 +48,11 @@ class FavouriteViewModel(
 
     /** Updates the response variable if there is some change in data in firebase */
     private fun subscribeToRealtimeUpdates() {
+        val uid=Firebase.auth.uid!!
         val dataCollectionRef=Firebase.firestore.collection("Memes")
-        dataCollectionRef.addSnapshotListener { querySnapshot, error ->
+        dataCollectionRef.
+        whereEqualTo("uid",uid).
+        addSnapshotListener { querySnapshot, error ->
             querySnapshot?.let {
                 val memeList= mutableListOf<Meme>()
                 for (document in querySnapshot.documents){
