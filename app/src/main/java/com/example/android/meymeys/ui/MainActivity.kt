@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -78,20 +79,20 @@ class MainActivity : AppCompatActivity() {
                      val color=ColorDrawable(Color.BLACK)
                      supportActionBar?.setBackgroundDrawable(color)
                      window.statusBarColor=Color.BLACK
+                     window.navigationBarColor=Color.BLACK
                  }
+                R.id.loginFragment -> {
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    supportActionBar?.elevation= 0F
+                    window.navigationBarColor=getColor(R.color.green)
+                }
                 else -> {
                     val color=ColorDrawable(resources.getColor(R.color.green))
                     supportActionBar?.setBackgroundDrawable(color)
-                    window.statusBarColor=resources.getColor(R.color.green)
+                    window.statusBarColor=getColor(R.color.green)
+                    window.navigationBarColor=Color.WHITE
+                    supportActionBar?.show()
 
-                    //Not displaying navigation drawer in login fragment
-                    if(destination.id == R.id.loginFragment){
-                        supportActionBar?.setDisplayHomeAsUpEnabled(false)
-                        supportActionBar?.hide()
-                    }
-                    else{
-                        supportActionBar?.show()
-                    }
                 }
             }
 

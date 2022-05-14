@@ -27,6 +27,8 @@ import com.example.android.meymeys.utils.SUBREDDIT_HOME
 import com.example.android.meymeys.utils.Subreddits
 import com.example.android.meymeys.viewmodel.NetworkViewModel
 import com.example.android.meymeys.viewmodelfactory.NetworkViewModelFactory
+import com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_SHORT
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -93,7 +95,7 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     hideRecyclerView()
                     hideProgressBar()
                     showConnectionError()
-                    Toast.makeText(requireContext(),it.message,Toast.LENGTH_LONG).show()
+                    Snackbar.make(binding.view,it.message.toString(),LENGTH_SHORT).show()
                 }
             }
         }
@@ -101,11 +103,11 @@ class HomeFragment : Fragment(), AdapterView.OnItemSelectedListener {
         //Observing Exception Variable
         viewModel.exception.observe(viewLifecycleOwner){
             if(it==0){
-                Toast.makeText(requireContext(),getString(R.string.error_text),Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.view,getString(R.string.error_text),LENGTH_SHORT).show()
                 viewModel.resetException()
             }
             else if(it==1){
-                Toast.makeText(requireContext(),getString(R.string.success_save),Toast.LENGTH_SHORT).show()
+                Snackbar.make(binding.view,getString(R.string.success_save),LENGTH_SHORT).show()
                 viewModel.resetException()
             }
         }
