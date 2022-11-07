@@ -33,11 +33,6 @@
             app:argType="com.example.android.meymeys.model.Meme" />
 
     </fragment>
-    <fragment
-        android:id="@+id/aboutFragment"
-        android:name="com.example.android.meymeys.ui.AboutFragment"
-        android:label="About"
-        tools:layout="@layout/fragment_about" />
     <dialog
         android:id="@+id/shareFragment"
         android:name="com.example.android.meymeys.ui.ShareFragment"
